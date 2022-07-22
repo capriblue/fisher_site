@@ -9,6 +9,9 @@
 - Aの最大値: 3.9661827087402344  epoch:  4  name:  layer4.0.shortcut.0
 - Bの最大値: 1.368059754371643  epoch:  53  name:  conv1
 
+## dampingなしでresnet18を訓練した場合の各種値(damping = 1e-2)
+
+
 ## eigenA
 
 Aの固有値分布．
