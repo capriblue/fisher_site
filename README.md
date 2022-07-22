@@ -2,12 +2,12 @@
 
 ## dampingなしでresnet18を訓練した場合の各種値
 
-Aの条件数の最大値: 16781442809856.0  epoch:  77  name:  layer4.1.conv2
-Bの条件数の最大値: 467.2051086425781  epoch:  53  name:  conv1
-Aの最小値: 4.003073527584321e-21  epoch:  99  name:  layer4.1.conv2
-Bの最小値: 3.206492782213162e-24  epoch:  99  name:  layer4.0.conv2
-Aの最大値: 3.9661827087402344  epoch:  4  name:  layer4.0.shortcut.0
-Bの最大値: 1.368059754371643  epoch:  53  name:  conv1
+- Aの条件数の最大値: 16781442809856.0  epoch:  77  name:  layer4.1.conv2
+- Bの条件数の最大値: 467.2051086425781  epoch:  53  name:  conv1
+- Aの最小値: 4.003073527584321e-21  epoch:  99  name:  layer4.1.conv2
+- Bの最小値: 3.206492782213162e-24  epoch:  99  name:  layer4.0.conv2
+- Aの最大値: 3.9661827087402344  epoch:  4  name:  layer4.0.shortcut.0
+- Bの最大値: 1.368059754371643  epoch:  53  name:  conv1
 
 ## eigenA
 
