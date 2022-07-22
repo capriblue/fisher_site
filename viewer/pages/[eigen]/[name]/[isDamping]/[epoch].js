@@ -4,22 +4,33 @@ import { readdirSync } from "fs";
 import { join } from "path";
 import eigenData from "../../../../lib/engenData.json";
 import SideverEigen from "../../../../components/sideverEigen";
+import { Grid } from "@mui/material";
+import { styled } from '@mui/material/styles';
+const FixedGrid = styled(Grid)(({ theme }) => ({
+    backgroundColor: '#ff9',
+}))
 export default function PictureRenderer({ fileInfos }) {
   return (
     <>
-    <SideverEigen/>
-      {fileInfos.map(({path, name}) => (
-        <Image
-          src={path}
-          alt={name}
-          layout="fixed"
-          width={640}
-          height={480}
-          quality={5}
-          key={name}
-          id={name}
-        />
-      ))}
+      <Grid container spacing={2} >
+        <FixedGrid item xs={3}>
+          <SideverEigen />
+        </FixedGrid>
+        <Grid item xs={9}>
+          {fileInfos.map(({ path, name }) => (
+            <Image
+              src={path}
+              alt={name}
+              layout="fixed"
+              width={640}
+              height={480}
+              quality={5}
+              key={name}
+              id={name}
+            />
+          ))}
+        </Grid>
+      </Grid>
     </>
   );
 }
@@ -53,8 +64,7 @@ export const getStaticPaths = async () => {
   return { paths, fallback: false };
 };
 
-export const getStaticProps = async ({ params, test }) => {
-  console.log(test);
+export const getStaticProps = async ({ params}) => {
   const figurePath = join(
     process.cwd(),
     "public",
@@ -79,7 +89,7 @@ export const getStaticProps = async ({ params, test }) => {
   });
   return {
     props: {
-        fileInfos
+      fileInfos,
     },
   };
 };

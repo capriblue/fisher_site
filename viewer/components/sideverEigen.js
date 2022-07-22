@@ -1,19 +1,53 @@
 import React from "react";
 import eigenData from "../lib/engenData.json";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { Button } from "@mui/material";
+
 export default function SideverEigen() {
   const [matrix, setMatrix] = React.useState(eigenData.matrix[0]);
-  const matrixChange = (e) => setMatrix(e.target.value);
+  const router = useRouter();
+  const matrixChange = (e) => {
+    setMatrix(e.target.value);
+    router.push(
+      `/${e.target.value}/${figureName}/${damping}/epoch${epochNum}#${fileName}`
+    );
+  };
   const [figureName, setFigureName] = React.useState(eigenData.name[0]);
-  const figureNameChange = (e) => setFigureName(e.target.value);
+  const figureNameChange = (e) => {
+    setFigureName(e.target.value);
+    router.push(
+      `/${matrix}/${e.target.value}/${damping}/epoch${epochNum}#${fileName}`
+    );
+  };
   const [damping, setDamping] = React.useState(eigenData.isDamping[0]);
-  const dompingChange = (e) => setDamping(e.target.value);
+  const dompingChange = (e) => {
+    setDamping(e.target.value);
+    router.push(
+      `/${matrix}/${figureName}/${e.target.value}/epoch${epochNum}#${fileName}`
+    );
+  };
   const [epochNum, setEpochNum] = React.useState(eigenData.epoch_min);
-  const epochNumChnage = (e) => setEpochNum(e.target.value);
-  const [fileName, setFileName] = React.useState(eigenData.fileNames[0])
-  const fileNameChange = (e) => setFileName(e.target.value)
+  const epochNumChnage = (e) => {
+    setEpochNum(e.target.value);
+    router.push(
+      `/${matrix}/${figureName}/${damping}/epoch${e.target.value}#${fileName}`
+    );
+  };
+  const [fileName, setFileName] = React.useState(eigenData.fileNames[0]);
+  const fileNameChange = (e) => {
+    setFileName(e.target.value);
+    router.push(
+      `/${matrix}/${figureName}/${damping}/epoch${epochNum}#${e.target.value}`
+    );
+  };
+  const ButtonClick = (e) => {
+    router.reload(
+        `/${matrix}/${figureName}/${damping}/epoch${epochNum}#${fileName}`
+    )
+  }
   return (
-    <>
+    <div style={{ position: "sticky", top: 0 }}>
       <p>Eigen: {matrix}</p>
       {eigenData.matrix.map((_matrix) => (
         <label key={_matrix}>
@@ -51,7 +85,9 @@ export default function SideverEigen() {
         </label>
       ))}
       <div>
-        <p>epoch number: {epochNum}</p>
+        <p>
+          epoch number: {epochNum}
+        </p>
         <input
           type="range"
           value={epochNum}
@@ -59,64 +95,24 @@ export default function SideverEigen() {
           min={eigenData.epoch_min}
           max={eigenData.epoch_max}
         />
+        <br />
       </div>
       <div>
         <p>file name: {fileName}</p>
-        <label key="top">
-            <input
-            type="radio"
-            value=""
-            onChange={fileNameChange}
-            checked={fileName === ""}
-            />
-            top
-        </label>
         {eigenData.fileNames.map((_fileName) => (
-        <label key={_fileName}>
-          <input
-            type="radio"
-            value={_fileName}
-            onChange={fileNameChange}
-            checked={fileName === _fileName}
-          />
-          {_fileName}
-        </label>
-      ))}
+          <label key={_fileName} style={{ display: "block"}}>
+            <input
+              type="radio"
+              value={_fileName}
+              onChange={fileNameChange}
+              checked={fileName === _fileName}
+            />
+            {_fileName}
+          </label>
+        ))}
       </div>
-      <Link href={`/${matrix}/${figureName}/${damping}/epoch${epochNum}#${fileName}`}>この条件の画像を見る</Link>
-      <br/>
-    </>
+      <Button variant="contained" onClick={ButtonClick}>強制的に画像を表示(reload)</Button>
+      <br />
+    </div>
   );
 }
-
-// return (
-//     <>
-//     <div>
-//         <p>Eigen</p>
-//         {
-//             eigenData.matrix.map((_matrix) => (
-//                 <div key={_matrix}>
-//                 <input type="radio" id={_matrix} name="matrix" value={_matrix} /><label for={_matrix}>{_matrix}</label>
-//                 </div>
-//             ))
-//         }
-//     </div>
-//     <div>
-//         <p>name</p>
-//         {
-//             eigenData.name.map((_name) => (
-//                 <input type="radio" id={_name} name="name" value={_name} key={_name}><label for={_name}>{_name}</label></input>
-//             ))
-//         }
-//     </div>
-//     <div>
-//         <p>domping</p>
-//         <input type="radio" id="yes" name="domping" value="yes" key="yes"><label for="yes">yes</label></input>
-//         <input type="radio" id="no" name="domping" value="no" key="no"><label for="no">no</label></input>
-//     </div>
-//     <div>
-//         <p>epoch number</p>
-//         <input type="range" name="epochNum" min={eigenData.epoch_min} max={eigenData.epoch_max}/>
-//     </div>
-//     </>
-//   )
