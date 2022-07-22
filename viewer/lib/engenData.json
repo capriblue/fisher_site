@@ -1,0 +1,30 @@
+{
+  "matrix": ["eigenA", "eigenB"],
+  "name": ["resnet18_fp32"],
+  "isDamping": ["damping", "nodamping"],
+  "epoch_min": 0,
+  "epoch_max": 99,
+  "fileNames": [
+    "conv1.png",
+    "layer1.0.conv1.png",
+    "layer1.0.conv2.png",
+    "layer1.1.conv1.png",
+    "layer1.1.conv2.png",
+    "layer2.0.conv1.png",
+    "layer2.0.conv2.png",
+    "layer2.0.shortcut.0.png",
+    "layer2.1.conv1.png",
+    "layer2.1.conv2.png",
+    "layer3.0.conv1.png",
+    "layer3.0.conv2.png",
+    "layer3.0.shortcut.0.png",
+    "layer3.1.conv1.png",
+    "layer3.1.conv2.png",
+    "layer4.0.conv1.png",
+    "layer4.0.conv2.png",
+    "layer4.0.shortcut.0.png",
+    "layer4.1.conv1.png",
+    "layer4.1.conv2.png",
+    "linear.png"
+  ]
+}
