@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import eigenData from "../lib/engenData.json";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Button } from "@mui/material";
-
+import { useLocalStorage } from "../src/hooks";
 export default function SideverEigen() {
+    // const [matrix, setMatrix] = useLocalStorage(eigenData.matrix[0], "matrix")
   const [matrix, setMatrix] = React.useState(eigenData.matrix[0]);
   const router = useRouter();
   const matrixChange = (e) => {
@@ -13,6 +14,7 @@ export default function SideverEigen() {
       `/${e.target.value}/${figureName}/${damping}/epoch${epochNum}#${fileName}`
     );
   };
+//   const [figureName, setFigureName] = useLocalStorage(eigenData.name[0], "figureName")
   const [figureName, setFigureName] = React.useState(eigenData.name[0]);
   const figureNameChange = (e) => {
     setFigureName(e.target.value);
@@ -20,6 +22,7 @@ export default function SideverEigen() {
       `/${matrix}/${e.target.value}/${damping}/epoch${epochNum}#${fileName}`
     );
   };
+//   const [damping, setDamping ] = useLocalStorage(eigenData.isDamping[0], "damping")
   const [damping, setDamping] = React.useState(eigenData.isDamping[0]);
   const dompingChange = (e) => {
     setDamping(e.target.value);
@@ -27,13 +30,18 @@ export default function SideverEigen() {
       `/${matrix}/${figureName}/${e.target.value}/epoch${epochNum}#${fileName}`
     );
   };
+//   const [epochNum, setEpochNum ] = useLocalStorage(eigenData.epoch_min, "epochNum")
   const [epochNum, setEpochNum] = React.useState(eigenData.epoch_min);
   const epochNumChnage = (e) => {
     setEpochNum(e.target.value);
-    router.push(
-      `/${matrix}/${figureName}/${damping}/epoch${e.target.value}#${fileName}`
-    );
+
   };
+  const epochNumRun = (e) => {
+    router.push(
+        `/${matrix}/${figureName}/${damping}/epoch${e.target.value}#${fileName}`
+      );
+  }
+//   const [fileName, setFileName] = useLocalStorage(eigenData.fileNames[0], "fileName")
   const [fileName, setFileName] = React.useState(eigenData.fileNames[0]);
   const fileNameChange = (e) => {
     setFileName(e.target.value);
@@ -41,6 +49,26 @@ export default function SideverEigen() {
       `/${matrix}/${figureName}/${damping}/epoch${epochNum}#${e.target.value}`
     );
   };
+  const saveChange = () => {
+
+        localStorage.setItem("eigenState", JSON.stringify({
+          matrix,figureName, damping, epochNum, fileName  
+        }))
+  }
+  const loadChange = () => {
+    const eigenState = JSON.parse(localStorage.getItem("eigenState")) || {
+        matrix,figureName, damping, epochNum, fileName 
+    }
+    setMatrix(eigenState.matrix)
+    setFigureName(eigenState.figureName)
+    setDamping(eigenState.damping)
+    setEpochNum(eigenState.epochNum)
+    setFileName(eigenState.fileName)
+    router.push(
+        `/${eigenState.matrix}/${eigenState.figureName}/${eigenState.damping}/epoch${eigenState.epochNum}#${eigenState.fileName}`
+      );
+    console.log(eigenState)
+  }
   const ButtonClick = (e) => {
     router.reload(
         `/${matrix}/${figureName}/${damping}/epoch${epochNum}#${fileName}`
@@ -92,6 +120,7 @@ export default function SideverEigen() {
           type="range"
           value={epochNum}
           onChange={epochNumChnage}
+          onMouseUp={epochNumRun}
           min={eigenData.epoch_min}
           max={eigenData.epoch_max}
         />
@@ -111,7 +140,9 @@ export default function SideverEigen() {
           </label>
         ))}
       </div>
-      <Button variant="contained" onClick={ButtonClick}>強制的に画像を表示(reload)</Button>
+      <Button variant="contained" onClick={saveChange}>localStrageに保存</Button>
+      <Button variant="contained" onClick={loadChange}>localStrageからload</Button>
+      <p>保存すると別のtabでも同じ表示ができます。</p>
       <br />
     </div>
   );

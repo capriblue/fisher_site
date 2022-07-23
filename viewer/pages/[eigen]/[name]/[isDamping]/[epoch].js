@@ -14,7 +14,7 @@ export default function PictureRenderer({ fileInfos }) {
     <>
       <Grid container spacing={2} >
         <FixedGrid item xs={3}>
-          <SideverEigen />
+          <SideverEigen  />
         </FixedGrid>
         <Grid item xs={9}>
           {fileInfos.map(({ path, name }) => (
